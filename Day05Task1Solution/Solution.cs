@@ -9,9 +9,14 @@ namespace Day05Task1Solution
     {
         public static IList<int> Run(int[] program, int input)
         {
+            return Run(program, new int[] { input });
+        }
+
+        public static IList<int> Run(int[] program, int[] input)
+        {
             var outputs = new List<int>();
             var index = 0;
-            var previousWasOutput = false;
+            var inputIndex = 0;
             InstructionData instructionData;
             do
             {
@@ -22,9 +27,14 @@ namespace Day05Task1Solution
                     break;
                 }
 
-                int? result = instructionData.Execute(program, index, input);
+                int? result = instructionData.Execute(program, index, input[inputIndex]);
 
-                previousWasOutput = result.HasValue;
+                if (instructionData.Instruction == Instruction.Input)
+                {
+                    inputIndex = Math.Min(inputIndex + 1, input.Length - 1);
+                }
+
+                bool previousWasOutput = result.HasValue;
                 if (previousWasOutput)
                 {
                     outputs.Add(result.Value);
