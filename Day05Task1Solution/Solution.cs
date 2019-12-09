@@ -9,14 +9,13 @@ namespace Day05Task1Solution
     {
         public static IList<int> Run(int[] program, int input)
         {
-            return Run(program, new int[] { input });
+            return Run(program, new Input(input)).Output;
         }
 
-        public static IList<int> Run(int[] program, int[] input)
+        public static Result Run(int[] program, Input input)
         {
             var outputs = new List<int>();
             var index = 0;
-            var inputIndex = 0;
             InstructionData instructionData;
             do
             {
@@ -27,12 +26,19 @@ namespace Day05Task1Solution
                     break;
                 }
 
-                int? result = instructionData.Execute(program, index, input[inputIndex]);
-
+                int? inputValue = null;
                 if (instructionData.Instruction == Instruction.Input)
                 {
-                    inputIndex = Math.Min(inputIndex + 1, input.Length - 1);
+                    if (input.HasMore())
+                    {
+                        inputValue = input.Next();
+                    }
+                    else
+                    {
+                        return new Result { Output = outputs, Status = Status.NeedsMoreInput };
+                    }
                 }
+                int? result = instructionData.Execute(program, index, inputValue);
 
                 bool previousWasOutput = result.HasValue;
                 if (previousWasOutput)
@@ -47,7 +53,7 @@ namespace Day05Task1Solution
                 }
             } while (instructionData.Length > 0);
             
-            return outputs;
+            return new Result { Output = outputs, Status = Status.RanToCompletion };
         }
     }
 }

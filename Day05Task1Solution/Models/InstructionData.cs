@@ -46,7 +46,7 @@ namespace Day05Task1Solution.Models
         public int Length { get; private set; }
         public int? JumpTo { get; private set; }
 
-        public abstract int? Execute(int[] program, int instructionIndex, int input);
+        public abstract int? Execute(int[] program, int instructionIndex, int? input);
 
         protected int GetValue(int[] program, Mode mode, int index)
         {

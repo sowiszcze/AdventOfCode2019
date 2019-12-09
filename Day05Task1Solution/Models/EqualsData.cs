@@ -16,7 +16,7 @@ namespace Day05Task1Solution.Models
         public Mode VerbMode { get; private set; }
         public Mode ResultMode { get; private set; }
 
-        public override int? Execute(int[] program, int instructionIndex, int input)
+        public override int? Execute(int[] program, int instructionIndex, int? input)
         {
             int valueFirst = GetValue(program, NounMode, instructionIndex + 1);
             int valueSecond = GetValue(program, VerbMode, instructionIndex + 2);

@@ -12,13 +12,13 @@ namespace Day05Task1Solution.Models
 
         public Mode ResultMode { get; private set; }
 
-        public override int? Execute(int[] program, int instructionIndex, int input)
+        public override int? Execute(int[] program, int instructionIndex, int? input)
         {
             SetValue(
                 program,
                 ResultMode,
                 instructionIndex + 1,
-                input
+                input.Value
             );
             return null;
         }

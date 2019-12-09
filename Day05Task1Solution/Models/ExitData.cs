@@ -9,7 +9,7 @@ namespace Day05Task1Solution.Models
         {
         }
 
-        public override int? Execute(int[] program, int instructionIndex, int input)
+        public override int? Execute(int[] program, int instructionIndex, int? input)
         {
             return null;
         }

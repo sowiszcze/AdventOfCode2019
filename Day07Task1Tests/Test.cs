@@ -1,5 +1,6 @@
 using Day07Task1Solution;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Linq;
 
 namespace Day07Task1Tests
 {
@@ -12,7 +13,7 @@ namespace Day07Task1Tests
         [DataRow(new int[] { 3, 31, 3, 32, 1002, 32, 10, 32, 1001, 31, -2, 31, 1007, 31, 0, 33, 1002, 33, 7, 33, 1, 33, 31, 31, 1, 32, 31, 31, 4, 31, 99, 0, 0, 0 }, new int[] { 1, 0, 4, 3, 2 }, 65210)]
         public void CheckAmplifiers(int[] program, int[] phases, int expectedResult)
         {
-            Assert.AreEqual(expectedResult, Solution.RunAmplifiers(program, 0, phases));
+            Assert.AreEqual(expectedResult, Solution.RunAmplifiers(program, 0, phases)[phases.Length - 1].Last());
         }
 
         [TestMethod]
@@ -21,7 +22,7 @@ namespace Day07Task1Tests
         [DataRow(new int[] { 3, 31, 3, 32, 1002, 32, 10, 32, 1001, 31, -2, 31, 1007, 31, 0, 33, 1002, 33, 7, 33, 1, 33, 31, 31, 1, 32, 31, 31, 4, 31, 99, 0, 0, 0 }, 65210)]
         public void CheckIfGivesCorrectSolution(int[] program, int expectedResult)
         {
-            Assert.AreEqual(expectedResult, Solution.FindBestSettings(program, 0, 5, 0, 4));
+            Assert.AreEqual(expectedResult, Solution.FindBestSettings(program, 0, 0, 4));
         }
     }
 }

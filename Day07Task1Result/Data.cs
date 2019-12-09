@@ -1,4 +1,4 @@
-﻿namespace Day07Tak1Result
+﻿namespace Day07Task1Result
 {
     public static class Data
     {

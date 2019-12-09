@@ -14,7 +14,7 @@ namespace Day05Task1Solution.Models
         public Mode NounMode { get; private set; }
         public Mode ResultMode { get; private set; }
 
-        public override int? Execute(int[] program, int instructionIndex, int input)
+        public override int? Execute(int[] program, int instructionIndex, int? input)
         {
             int value = GetValue(program, NounMode, instructionIndex + 1);
             if (value != 0)
