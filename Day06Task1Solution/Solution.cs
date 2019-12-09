@@ -7,7 +7,21 @@ namespace Day06Task1Solution
 {
     public static class Solution
     {
-        public static int Calculate(string[] orbits)
+        public static int SumAllRelations(string[] orbits)
+        {
+            return GetRelations(orbits).Sum(o => o.Value.CountParents());
+        }
+
+        public static int FindClosestPathLength(string[] orbits, string from, string to)
+        {
+            Dictionary<string, SpaceObject> relations = GetRelations(orbits);
+            var source = relations[from].Parent;
+            var destination = relations[to].Parent;
+            var commonPoint = source.FindClosestCommonAncestor(destination);
+            return source.CountParentsUntilAncestor(commonPoint) + destination.CountParentsUntilAncestor(commonPoint);
+        }
+
+        private static Dictionary<string, SpaceObject> GetRelations(string[] orbits)
         {
             var objects = new Dictionary<string, SpaceObject>();
             IEnumerable<(string, string)> relations = orbits.Select(o => o.Split(')')).Select(s => (s[0], s[1]));
@@ -39,7 +53,7 @@ namespace Day06Task1Solution
                 child.SetParent(parent);
                 parent.AddChild(child);
             }
-            return objects.Sum(o => o.Value.CountParents());
+            return objects;
         }
     }
 }

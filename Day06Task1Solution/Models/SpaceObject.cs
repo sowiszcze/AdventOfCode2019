@@ -23,6 +23,13 @@ namespace Day06Task1Solution.Models
             get => new ReadOnlyCollection<SpaceObject>(_children.ToList());
         }
 
+        public IReadOnlyCollection<SpaceObject> Ancestors
+        {
+            get => Parent != null ?
+                new ReadOnlyCollection<SpaceObject>(new List<SpaceObject>(new SpaceObject[] { Parent }.Union(Parent.Ancestors))) :
+                new ReadOnlyCollection<SpaceObject>(new List<SpaceObject>());
+        }
+
         public void SetParent(SpaceObject parent)
         {
             if (Parent != null)
@@ -41,9 +48,32 @@ namespace Day06Task1Solution.Models
             _children.Add(child);
         }
 
+        public bool HasAncestor(SpaceObject ancestor)
+        {
+            return Parent == null ? false : ancestor.Name == Parent.Name || Parent.HasAncestor(ancestor);
+        }
+
+        public SpaceObject FindClosestCommonAncestor(SpaceObject other)
+        {
+            foreach (var ancestor in other.Ancestors)
+            {
+                if (HasAncestor(ancestor))
+                {
+                    return ancestor;
+                }
+            }
+
+            return null;
+        }
+
         public int CountParents()
         {
             return Parent != null ? 1 + Parent.CountParents() : 0;
+        }
+
+        public int CountParentsUntilAncestor(SpaceObject ancestor)
+        {
+            return Parent.Name != ancestor.Name ? 1 + Parent.CountParentsUntilAncestor(ancestor) : 1;
         }
     }
 }
