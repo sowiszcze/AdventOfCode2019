@@ -1,10 +1,11 @@
 ﻿using Day05Task1Solution.Enums;
+using System.Collections.Generic;
 
 namespace Day05Task1Solution.Models
 {
     internal class JumpIfTrueData : InstructionData
     {
-        public JumpIfTrueData(int parameters)
+        public JumpIfTrueData(long parameters)
             : base(Instruction.JumpIfTrue, 3)
         {
             NounMode = (Mode)(parameters % 10);
@@ -14,12 +15,12 @@ namespace Day05Task1Solution.Models
         public Mode NounMode { get; private set; }
         public Mode ResultMode { get; private set; }
 
-        public override int? Execute(int[] program, int instructionIndex, int? input)
+        public override long? Execute(Dictionary<long, long> program, long instructionIndex, long relativeBase, long? input)
         {
-            int value = GetValue(program, NounMode, instructionIndex + 1);
+            long value = GetValue(program, NounMode, instructionIndex + 1, relativeBase);
             if (value != 0)
             {
-                SetJumpTo(program, ResultMode, instructionIndex + 2);
+                SetJumpTo(program, ResultMode, instructionIndex + 2, relativeBase);
             }
 
             return null;

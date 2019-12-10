@@ -8,6 +8,6 @@ namespace Day05Task1Solution.Models
     public class Result
     {
         public Status Status { get; set; }
-        public IList<int> Output { get; set; }
+        public IList<long> Output { get; set; }
     }
 }

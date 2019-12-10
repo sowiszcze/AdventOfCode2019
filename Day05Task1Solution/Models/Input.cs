@@ -7,21 +7,27 @@ namespace Day05Task1Solution.Models
     public class Input
     {
         private int _index;
-        private readonly int[] _list;
+        private readonly long[] _list;
 
-        public Input(int input)
+        public Input()
         {
-            _list = new int[] { input };
+            _list = new long[] { };
             _index = 0;
         }
 
-        public Input(int[] list)
+        public Input(long input)
+        {
+            _list = new long[] { input };
+            _index = 0;
+        }
+
+        public Input(long[] list)
         {
             _list = list;
             _index = 0;
         }
 
-        public int Next()
+        public long Next()
         {
             return _list[_index++];
         }

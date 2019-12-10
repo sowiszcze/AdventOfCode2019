@@ -1,4 +1,5 @@
 ﻿using Day05Task1Solution.Enums;
+using System.Collections.Generic;
 
 namespace Day05Task1Solution.Models
 {
@@ -9,7 +10,7 @@ namespace Day05Task1Solution.Models
         {
         }
 
-        public override int? Execute(int[] program, int instructionIndex, int? input)
+        public override long? Execute(Dictionary<long, long> program, long instructionIndex, long relativeBase, long? input)
         {
             return null;
         }

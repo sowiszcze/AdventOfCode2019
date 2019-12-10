@@ -7,10 +7,10 @@ namespace Day05Task1Solution.Models
 {
     public abstract class InstructionData
     {
-        public static InstructionData CreateInstructionData(int data)
+        public static InstructionData CreateInstructionData(long data)
         {
             var instructionInfo = (Instruction)(data % 100);
-            int instructionParams = data / 100;
+            long instructionParams = data / 100;
             switch (instructionInfo)
             {
                 case Instruction.Add:
@@ -29,6 +29,8 @@ namespace Day05Task1Solution.Models
                     return new LessThanData(instructionParams);
                 case Instruction.Equals:
                     return new EqualsData(instructionParams);
+                case Instruction.AdjustRelativeBase:
+                    return new AdjustRelativeBaseData(instructionParams);
                 case Instruction.Exit:
                     return new ExitData();
                 default:
@@ -36,32 +38,34 @@ namespace Day05Task1Solution.Models
             }
         }
         
-        protected InstructionData(Instruction instruction, int length)
+        protected InstructionData(Instruction instruction, long length)
         {
             Instruction = instruction;
             Length = length;
         }
 
         public Instruction Instruction { get; private set; }
-        public int Length { get; private set; }
-        public int? JumpTo { get; private set; }
+        public long Length { get; private set; }
+        public long? JumpTo { get; private set; }
 
-        public abstract int? Execute(int[] program, int instructionIndex, int? input);
+        public abstract long? Execute(Dictionary<long, long> program, long instructionIndex, long relativeBase, long? input);
 
-        protected int GetValue(int[] program, Mode mode, int index)
+        protected long GetValue(Dictionary<long, long> program, Mode mode, long index, long relativeBase)
         {
             switch (mode)
             {
                 case Mode.Immediate:
-                    return program[index];
+                    return Get(program, index);
                 case Mode.Position:
-                    return program[program[index]];
+                    return Get(program, Get(program, index));
+                case Mode.Relative:
+                    return Get(program, relativeBase + Get(program, index));
                 default:
                     throw new NotImplementedException($"Mode {mode} is not implemented.");
             }
         }
 
-        protected void SetValue(int[] program, Mode mode, int index, int value)
+        protected void SetValue(Dictionary<long, long> program, Mode mode, long index, long relativeBase, long value)
         {
             
             switch (mode)
@@ -70,26 +74,41 @@ namespace Day05Task1Solution.Models
                     program[index] = value;
                     break;
                 case Mode.Position:
-                    program[program[index]] = value;
+                    program[Get(program, index)] = value;
+                    break;
+                case Mode.Relative:
+                    program[relativeBase + Get(program, index)] = value;
                     break;
                 default:
                     throw new NotImplementedException($"Mode {mode} is not implemented.");
             }
         }
 
-        protected void SetJumpTo(int[] program, Mode mode, int index)
+        protected void SetJumpTo(Dictionary<long, long> program, Mode mode, long index, long relativeBase)
         {
             switch (mode)
             {
                 case Mode.Immediate:
-                    JumpTo = program[index];
+                    JumpTo = Get(program, index);
                     break;
                 case Mode.Position:
-                    JumpTo = program[program[index]];
+                    JumpTo = Get(program, Get(program, index));
+                    break;
+                case Mode.Relative:
+                    JumpTo = Get(program, relativeBase + Get(program, index));
                     break;
                 default:
                     throw new NotImplementedException($"Mode {mode} is not implemented.");
             }
+        }
+
+        private long Get(Dictionary<long, long> program, long index)
+        {
+            if (index < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(index));
+            }
+            return program.ContainsKey(index) ? program[index] : 0;
         }
     }
 }

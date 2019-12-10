@@ -9,7 +9,7 @@ namespace Day05Task2Result
     {
         static void Main(string[] args)
         {
-            IList<int> result = Solution.Run(Data.Program, 5);
+            IList<long> result = Solution.Run(Data.Program, 5);
             if (result.Count > 1)
             {
                 throw new Exception("Too many outputs.");
