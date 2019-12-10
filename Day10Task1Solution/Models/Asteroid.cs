@@ -21,6 +21,11 @@ namespace Day10Task1Solution.Models
             return new Vector(X - other.X, Y - other.Y);
         }
 
+        public double CalculateDistance(Asteroid other)
+        {
+            return Math.Sqrt(Math.Pow(other.X - X, 2) + Math.Pow(other.Y - Y, 2));
+        }
+
         public IEnumerable<Point> GetMiddlePoints(Asteroid other)
         {
             var vector = CalculateVector(other);

@@ -48,5 +48,23 @@ namespace Day10Task1Solution
         {
             return observatories.OrderByDescending(o => o.InView).First();
         }
+
+        public static IList<Asteroid> AsteroidsToYeet(Asteroid source, IEnumerable<Asteroid> asteroids)
+        {
+            var toYeet = asteroids
+                .Where(a => a != source)
+                .GroupBy(a => source.CalculateVector(a).Angle)
+                .ToArray();
+            var maxInLine = toYeet.Max(y => y.Count());
+            var yote = new List<Asteroid>();
+            for (var i = 0; i < maxInLine; i++)
+            {
+                var layer = toYeet.Where(g => g.Count() > i);
+                var ordered = layer.OrderBy(g => g.Key);
+                var selected = ordered.Select(g => g.OrderBy(a => source.CalculateDistance(a)).ElementAt(i));
+                yote.AddRange(selected);
+            }
+            return yote;
+        }
     }
 }
