@@ -26,15 +26,15 @@ namespace Day10Task1Solution.Models
             var vector = CalculateVector(other);
             if (!vector.IsBlank)
             {
-                do
+                for (var i = 1; ; i++)
                 {
-                    var point = new Point(other.X + vector.U, other.Y + vector.V);
+                    var point = new Point(other.X + vector.U * i, other.Y + vector.V * i);
                     if (IsPlacedAt(point))
                     {
                         break;
                     }
                     yield return point;
-                } while (true);
+                }
             }
         }
     }
