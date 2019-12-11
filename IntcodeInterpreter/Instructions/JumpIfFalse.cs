@@ -12,10 +12,10 @@ namespace IntcodeInterpreter.Instructions
             ResultMode = (Mode)((parameters / 10) % 10);
         }
 
-        public Mode NounMode { get; private set; }
-        public Mode ResultMode { get; private set; }
+        internal Mode NounMode { get; private set; }
+        internal Mode ResultMode { get; private set; }
 
-        public override long? Execute(Dictionary<long, long> program, long instructionIndex, long relativeBase, long? input)
+        internal override long? Execute(Dictionary<long, long> program, long instructionIndex, long relativeBase, long? input)
         {
             long value = GetValue(program, NounMode, instructionIndex + 1, relativeBase);
             if (value == 0)

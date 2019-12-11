@@ -1,4 +1,5 @@
 ﻿using Day02Task1Solution;
+using IntcodeInterpreter;
 using Shared.Helpers;
 using System;
 
@@ -10,13 +11,16 @@ namespace Day02Task2Result
 
         static void Main(string[] args)
         {
-            int output;
+            long output;
 
-            for (int noun = 0; noun < 100; noun++)
+            for (long noun = 0; noun < 100; noun++)
             {
-                for (int verb = 0; verb < 100; verb++)
+                for (long verb = 0; verb < 100; verb++)
                 {
-                    output = Solution.Calculate(Solution.Fix(Data.Program, noun, verb)).GetResult();
+                    var interpreter = new Interpreter(Solution.Fix(Data.Program, noun, verb));
+                    interpreter.Run();
+                    interpreter.AssureCompletion();
+                    output = interpreter.Memory[0];
 
                     if (output == ExpectedOutput)
                     {

@@ -4,37 +4,14 @@ using System.Collections.Generic;
 
 namespace IntcodeInterpreter.Instructions
 {
-    public abstract class InstructionBase
+    internal abstract class InstructionBase
     {
-        public static InstructionBase CreateInstruction(long data)
+        internal static InstructionBase CreateInstruction(long data)
         {
-            var instructionInfo = (Instruction)(data % 100);
+            var instruction = (Instruction)(data % 100);
             long instructionParams = data / 100;
-            switch (instructionInfo)
-            {
-                case Instruction.Add:
-                    return new Add(instructionParams);
-                case Instruction.Multiply:
-                    return new Multiply(instructionParams);
-                case Instruction.Input:
-                    return new Input(instructionParams);
-                case Instruction.Output:
-                    return new Output(instructionParams);
-                case Instruction.JumpIfTrue:
-                    return new JumpIfTrue(instructionParams);
-                case Instruction.JumpIfFalse:
-                    return new JumpIfFalse(instructionParams);
-                case Instruction.LessThan:
-                    return new LessThan(instructionParams);
-                case Instruction.Equals:
-                    return new Equals(instructionParams);
-                case Instruction.AdjustRelativeBase:
-                    return new AdjustRelativeBase(instructionParams);
-                case Instruction.Exit:
-                    return new Exit();
-                default:
-                    throw new NotImplementedException($"Instruction {instructionInfo} is not implemented. Reference data: {data}.");
-            }
+
+            return Activator.CreateInstance(Type.GetType($"IntcodeInterpreter.Instructions.{instruction}", true, true), new object[] { instructionParams }) as InstructionBase;
         }
         
         protected InstructionBase(Instruction instruction, long length)
@@ -43,11 +20,11 @@ namespace IntcodeInterpreter.Instructions
             Length = length;
         }
 
-        public Instruction Instruction { get; private set; }
-        public long Length { get; private set; }
-        public long? JumpTo { get; private set; }
+        internal Instruction Instruction { get; private set; }
+        internal long Length { get; private set; }
+        internal long? JumpTo { get; private set; }
 
-        public abstract long? Execute(Dictionary<long, long> program, long instructionIndex, long relativeBase, long? input);
+        internal abstract long? Execute(Dictionary<long, long> program, long instructionIndex, long relativeBase, long? input);
 
         protected long GetValue(Dictionary<long, long> program, Mode mode, long index, long relativeBase)
         {

@@ -10,12 +10,16 @@ namespace Day05Task1Result
         static void Main(string[] args)
         {
             var interpreter = new Interpreter(Data.Program);
-            var result = interpreter.RunToCompletion(1);
-            if (result.Take(result.Count - 1).Any(r => r != 0))
+            interpreter.AddInput(1);
+            interpreter.Run();
+            interpreter.AssureCompletion();
+
+            if (interpreter.Output.Take(interpreter.Output.Count - 1).Any(r => r != 0))
             {
                 throw new Exception("Not all tests passed.");
             }
-            ConsoleHelper.PrintResult(result.Last());
+
+            ConsoleHelper.PrintResult(interpreter.Output.Last());
         }
     }
 }

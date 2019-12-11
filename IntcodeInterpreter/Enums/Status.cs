@@ -2,7 +2,10 @@
 {
     public enum Status
     {
+        NotStarted,
         RanToCompletion,
-        NeedsMoreInput
+        Running,
+        NeedsMoreInput,
+        Faulted
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace IntcodeInterpreter.Enums
 {
-    public enum Instruction
+    internal enum Instruction
     {
         Add = 1,
         Multiply = 2,

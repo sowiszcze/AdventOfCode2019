@@ -13,101 +13,106 @@ namespace IntcodeInterpreter
     {
         private readonly Dictionary<long, long> memory;
         private readonly IList<long> output;
+        private readonly InputData input;
 
         public Interpreter(long[] program)
         {
             memory = program.Select((v, i) => (Convert.ToInt64(i), v)).ToDictionary(k => k.Item1, v => v.v);
+            input = new InputData();
             output = new List<long>();
+
+            Index = 0;
+            RelativeBase = 0;
+            Status = Status.NotStarted;
         }
 
-        public IList<long> RunToCompletion()
+        public void AddInput(params long[] inputData)
         {
-            var result = Run(new InputData());
-            if (result.Status != Status.RanToCompletion)
+            input.Add(inputData);
+        }
+
+        public void SetInput(params long[] inputData)
+        {
+            input.Set(inputData);
+        }
+
+        public void RestartInput()
+        {
+            input.Restart();
+        }
+
+        public void Run()
+        {
+            Status = Status.Running;
+
+            try
             {
-                throw new ExecutionException($"Intcode interpreter halted with status {result.Status}.");
-            }
-            return result.Output;
-        }
-
-        public IList<long> RunToCompletion(long input)
-        {
-            var result = Run(new InputData(input));
-            if (result.Status != Status.RanToCompletion)
-            {
-                throw new ExecutionException($"Intcode interpreter halted with status {result.Status}.");
-            }
-            return result.Output;
-        }
-
-        public IList<long> RunToCompletion(InputData input)
-        {
-            var result = Run(input);
-            if (result.Status != Status.RanToCompletion)
-            {
-                throw new ExecutionException($"Intcode interpreter halted with status {result.Status}.");
-            }
-            return result.Output;
-        }
-
-        public Result Run()
-        {
-            return Run(new InputData());
-        }
-
-        public Result Run(long input)
-        {
-            return Run(new InputData(input));
-        }
-
-        public Result Run(InputData input)
-        {
-            var index = 0L;
-            var relativeBase = 0L;
-            InstructionBase instructionData;
-            do
-            {
-                instructionData = InstructionBase.CreateInstruction(memory[index]);
-
-                if (instructionData.Instruction == Instruction.Exit)
+                InstructionBase instructionData;
+                do
                 {
-                    break;
-                }
+                    instructionData = InstructionBase.CreateInstruction(memory[Index]);
 
-                long? inputValue = null;
-                if (instructionData.Instruction == Instruction.Input)
-                {
-                    if (input.HasMore())
+                    if (instructionData.Instruction == Instruction.Exit)
                     {
-                        inputValue = input.Next();
+                        break;
                     }
-                    else
+
+                    long? inputValue = null;
+                    if (instructionData.Instruction == Instruction.Input)
                     {
-                        return new Result { Output = output, Status = Status.NeedsMoreInput };
+                        if (input.HasMore())
+                        {
+                            inputValue = input.Next();
+                        }
+                        else
+                        {
+                            Status = Status.NeedsMoreInput;
+                            return;
+                        }
                     }
-                }
-                long? result = instructionData.Execute(memory, index, relativeBase, inputValue);
+                    long? result = instructionData.Execute(memory, Index, RelativeBase, inputValue);
 
-                if (instructionData.Instruction == Instruction.Output)
-                {
-                    output.Add(result.Value);
-                }
-                else if (instructionData.Instruction == Instruction.AdjustRelativeBase)
-                {
-                    relativeBase = result.Value;
-                }
+                    if (instructionData.Instruction == Instruction.Output)
+                    {
+                        output.Add(result.Value);
+                    }
+                    else if (instructionData.Instruction == Instruction.AdjustRelativeBase)
+                    {
+                        RelativeBase = result.Value;
+                    }
 
-                index += instructionData.Length;
-                if ((instructionData.Instruction == Instruction.JumpIfFalse || instructionData.Instruction == Instruction.JumpIfTrue) && instructionData.JumpTo.HasValue)
-                {
-                    index = instructionData.JumpTo.Value;
-                }
-            } while (instructionData.Length > 0);
-            
-            return new Result { Output = output, Status = Status.RanToCompletion };
+                    Index += instructionData.Length;
+                    if ((instructionData.Instruction == Instruction.JumpIfFalse || instructionData.Instruction == Instruction.JumpIfTrue) && instructionData.JumpTo.HasValue)
+                    {
+                        Index = instructionData.JumpTo.Value;
+                    }
+                } while (instructionData.Length > 0);
+
+                Status = Status.RanToCompletion;
+            }
+            catch (Exception ex)
+            {
+                Status = Status.Faulted;
+                throw new ExecutionException("There was an error during runtime of interpreter. See inner exception for more dateils", ex);
+            }
         }
 
-        public IReadOnlyDictionary<long, long> Memory => new ReadOnlyDictionary<long, long>(memory);
-        public IReadOnlyList<long> Output => output as IReadOnlyList<long>;
+        public void AssureCompletion()
+        {
+            if (Status != Status.RanToCompletion)
+            {
+                throw new ExecutionException($"Interpreter finished with status {Status}.");
+            }
+        }
+
+        public Status Status { get; private set; }
+
+        public long Index { get; private set; }
+
+        public long RelativeBase { get; private set; }
+
+        public IReadOnlyList<long> Memory => memory.Values.ToList().AsReadOnly();
+
+        public IReadOnlyList<long> Output => output.ToList().AsReadOnly();
     }
 }

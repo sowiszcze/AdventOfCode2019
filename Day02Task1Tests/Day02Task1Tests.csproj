@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Day02Task1Solution\Day02Task1Solution.csproj" />
+    <ProjectReference Include="..\IntcodeInterpreter\IntcodeInterpreter.csproj" />
   </ItemGroup>
 
 </Project>

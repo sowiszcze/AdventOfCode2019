@@ -1,6 +1,6 @@
 ﻿namespace IntcodeInterpreter.Enums
 {
-    public enum Mode
+    internal enum Mode
     {
         Position = 0,
         Immediate = 1,

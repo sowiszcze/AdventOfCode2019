@@ -1,4 +1,4 @@
-﻿using Day05Task1Solution;
+﻿using IntcodeInterpreter;
 using Shared.Helpers;
 using System.Linq;
 
@@ -8,8 +8,11 @@ namespace Day09Task2Result
     {
         static void Main(string[] args)
         {
-            var result = Solution.Run(Data.Program, 2L);
-            ConsoleHelper.PrintResult(result.Last());
+            var interpreter = new Interpreter(Data.Program);
+            interpreter.AddInput(2);
+            interpreter.Run();
+            interpreter.AssureCompletion();
+            ConsoleHelper.PrintResult(interpreter.Output.Last());
         }
     }
 }

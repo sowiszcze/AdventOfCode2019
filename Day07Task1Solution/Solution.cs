@@ -1,5 +1,5 @@
-﻿using Day05Task1Solution.Enums;
-using Day05Task1Solution.Models;
+﻿using IntcodeInterpreter;
+using IntcodeInterpreter.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,37 +22,36 @@ namespace Day07Task1Solution
 
         public static Dictionary<int, long[]> RunAmplifiers(long[] program, long baseInput, long[] phases)
         {
-            var outputs = Enumerable.Repeat(new long[] { }, phases.Length).ToArray();
-            var statuses = Enumerable.Repeat(Status.NeedsMoreInput, phases.Length).ToArray();
+            var interpreters = phases.Select(p => new Interpreter(program)).ToArray();
 
             do
             {
                 for (var i = 0; i < phases.Length; i++)
                 {
+                    var interpreter = interpreters[i];
+
                     long[] inputs;
                     long phase = phases[i];
 
                     if (i == 0)
                     {
-                        inputs = new long[] { baseInput }.Concat(outputs[phases.Length - 1]).ToArray();
+                        inputs = new long[] { baseInput }.Concat(interpreters[phases.Length - 1].Output).ToArray();
                     }
                     else
                     {
-                        inputs = outputs[i - 1];
+                        inputs = interpreters[i - 1].Output.ToArray();
                     }
-
-                    var result = Day05Task1Solution.Solution.Run(program.Clone() as long[], new Input(new long[] { phase }.Concat(inputs).ToArray()));
-                    outputs[i] = result.Output.ToArray();
-                    statuses[i] = result.Status;
+                    interpreter.SetInput(new long[] { phase }.Concat(inputs).ToArray());
+                    interpreter.Run();
                 }
-            } while (statuses.Any(s => s != Status.RanToCompletion));
+            } while (interpreters.Any(s => s.Status != Status.RanToCompletion));
 
-            if (statuses.Any(s => s != Status.RanToCompletion))
+            if (interpreters.Any(s => s.Status != Status.RanToCompletion))
             {
                 throw new Exception("Not all amplifiers completed their work.");
             }
 
-            return outputs.Select((o, i) => (i, o)).ToDictionary(k => k.i, v => v.o);
+            return interpreters.Select((o, i) => (i, o.Output.ToArray())).ToDictionary(k => k.i, v => v.Item2);
         }
 
         private static IEnumerable<long[]> GetPossiblePhases(IEnumerable<long> possibleValues)

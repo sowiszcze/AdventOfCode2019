@@ -3,17 +3,17 @@ using System.Collections.Generic;
 
 namespace IntcodeInterpreter.Instructions
 {
-    public class Input : InstructionBase
+    internal class Input : InstructionBase
     {
-        internal Input(long parameters)
+        public Input(long parameters)
             : base(Instruction.Input, 2)
         {
             ResultMode = (Mode)(parameters % 10);
         }
 
-        public Mode ResultMode { get; private set; }
+        internal Mode ResultMode { get; private set; }
 
-        public override long? Execute(Dictionary<long, long> program, long instructionIndex, long relativeBase, long? input)
+        internal override long? Execute(Dictionary<long, long> program, long instructionIndex, long relativeBase, long? input)
         {
             SetValue(
                 program,

@@ -1,40 +1,49 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 
 namespace IntcodeInterpreter.Models
 {
-    public class InputData
+    internal class InputData
     {
         private int _index;
-        private readonly long[] _list;
+        private readonly List<long> _list;
 
-        public InputData()
+        internal InputData()
         {
-            _list = new long[] { };
+            _list = new List<long>();
             _index = 0;
         }
 
-        public InputData(long input)
+        internal void Add(params long[] list)
         {
-            _list = new long[] { input };
+            _list.AddRange(list);
+        }
+
+        internal void Set(params long[] list)
+        {
+            _list.Clear();
+            Add(list);
+        }
+
+        internal void Restart()
+        {
             _index = 0;
         }
 
-        public InputData(long[] list)
+        internal long Next()
         {
-            _list = list;
-            _index = 0;
-        }
+            if (_index >= _list.Count)
+            {
+                throw new IndexOutOfRangeException();
+            }
 
-        public long Next()
-        {
             return _list[_index++];
         }
 
-        public bool HasMore()
+        internal bool HasMore()
         {
-            return _list.Length > _index;
+            return _list.Count > _index;
         }
     }
 }

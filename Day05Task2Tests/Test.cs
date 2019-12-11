@@ -1,6 +1,5 @@
-using Day05Task1Solution;
+using IntcodeInterpreter;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace Day05Task2Tests
@@ -26,12 +25,15 @@ namespace Day05Task2Tests
         [DataRow(new long[] { 3, 21, 1008, 21, 8, 20, 1005, 20, 22, 107, 8, 21, 20, 1006, 20, 31, 1106, 0, 36, 98, 0, 0, 1002, 21, 125, 20, 4, 20, 1105, 1, 46, 104, 999, 1105, 1, 46, 1101, 1000, 1, 20, 4, 20, 1105, 1, 46, 98, 99 }, 12, 1001)]
         public void CheckIfGivesCorrectSolution(long[] program, int input, int expectedResult)
         {
-            var result = Solution.Run(program, input);
-            if (result.Take(result.Count - 1).Any(r => r != 0))
+            var interpreter = new Interpreter(program);
+            interpreter.AddInput(input);
+            interpreter.Run();
+            interpreter.AssureCompletion();
+            if (interpreter.Output.Take(interpreter.Output.Count - 1).Any(r => r != 0))
             {
                 Assert.Fail("Not all tests passed.");
             }
-            Assert.AreEqual(expectedResult, result.Last());
+            Assert.AreEqual(expectedResult, interpreter.Output.Last());
         }
     }
 }

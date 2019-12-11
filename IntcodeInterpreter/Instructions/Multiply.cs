@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace IntcodeInterpreter.Instructions
 {
-    public class Multiply : InstructionBase
+    internal class Multiply : InstructionBase
     {
-        internal Multiply(long parameters)
+        public Multiply(long parameters)
             : base(Instruction.Multiply, 4)
         {
             NounMode = (Mode)(parameters % 10);
@@ -13,11 +13,11 @@ namespace IntcodeInterpreter.Instructions
             ResultMode = (Mode)((parameters / 100) % 10);
         }
 
-        public Mode NounMode { get; private set; }
-        public Mode VerbMode { get; private set; }
-        public Mode ResultMode { get; private set; }
+        internal Mode NounMode { get; private set; }
+        internal Mode VerbMode { get; private set; }
+        internal Mode ResultMode { get; private set; }
 
-        public override long? Execute(Dictionary<long, long> program, long instructionIndex, long relativeBase, long? input)
+        internal override long? Execute(Dictionary<long, long> program, long instructionIndex, long relativeBase, long? input)
         {
             SetValue(
                 program,
