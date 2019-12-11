@@ -31,7 +31,7 @@ namespace Shared.Helpers
             Console.WriteLine($"The result is: {result}");
         }
 
-        public static void PrintResult(string[] result)
+        public static void PrintResult(IEnumerable<string> result)
         {
             Console.WriteLine($"The result is:");
             foreach (var line in result)

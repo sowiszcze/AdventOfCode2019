@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace Day10Task1Solution.Models
+namespace Shared.Models
 {
     public class Vector
     {
