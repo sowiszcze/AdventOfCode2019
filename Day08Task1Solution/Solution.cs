@@ -7,29 +7,6 @@ namespace Day08Task1Solution
 {
     public class Solution
     {
-        public static IEnumerable<string> RenderImage(int[][] image)
-        {
-            foreach (var row in image)
-            {
-                var builder = new StringBuilder();
-                foreach (var pixel in row)
-                {
-                    switch (pixel)
-                    {
-                        case 0:
-                            builder.Append("█");
-                            break;
-                        case 1:
-                            builder.Append("░");
-                            break;
-                        default:
-                            throw new NotImplementedException($"Color {pixel} is not implemented.");
-                    }
-                }
-                yield return builder.ToString();
-            }
-        }
-
         public static int[][] FlattenImage(int[][][] image)
         {
             var layers = image.Length;

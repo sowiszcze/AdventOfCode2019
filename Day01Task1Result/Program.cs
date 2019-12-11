@@ -1,5 +1,5 @@
 ﻿using Day01Task1Solution;
-using System;
+using Shared.Helpers;
 
 namespace Day01Task1Result
 {
@@ -12,7 +12,7 @@ namespace Day01Task1Result
             {
                 sum += Solution.Calculate(mass);
             }
-            Console.WriteLine($"The result is: {sum}");
+            ConsoleHelper.PrintResult(sum);
         }
     }
 }

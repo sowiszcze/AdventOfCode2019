@@ -1,4 +1,5 @@
 ﻿using Day02Task1Solution;
+using Shared.Helpers;
 using System;
 
 namespace Day02Task2Result
@@ -19,7 +20,7 @@ namespace Day02Task2Result
 
                     if (output == ExpectedOutput)
                     {
-                        Console.WriteLine($"The result is: {100 * noun + verb}");
+                        ConsoleHelper.PrintResult(100 * noun + verb);
 
                         return;
                     }

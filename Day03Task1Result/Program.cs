@@ -1,5 +1,5 @@
-﻿using System;
-using Day03Task1Solution;
+﻿using Day03Task1Solution;
+using Shared.Helpers;
 
 namespace Day03Task1Result
 {
@@ -11,7 +11,7 @@ namespace Day03Task1Result
             var commands2 = Solution.CreateCommandsList(Data.Wire2);
             var path1 = Solution.CreatePaths(commands1);
             var path2 = Solution.CreatePaths(commands2);
-            Console.WriteLine($"The result is: {Solution.FindIntersections(path1, path2).FindClosest().GetDistance()}");
+            ConsoleHelper.PrintResult(Solution.FindIntersections(path1, path2).FindClosest().GetDistance());
         }
     }
 }

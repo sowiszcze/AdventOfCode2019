@@ -1,5 +1,5 @@
 ﻿using Day05Task1Solution;
-using System;
+using Shared.Helpers;
 using System.Linq;
 
 namespace Day09Task1Result
@@ -9,7 +9,7 @@ namespace Day09Task1Result
         static void Main(string[] args)
         {
             var result = Solution.Run(Data.Program, 1L);
-            Console.WriteLine($"The result is: {result.Last()}");
+            ConsoleHelper.PrintResult(result.Last());
         }
     }
 }

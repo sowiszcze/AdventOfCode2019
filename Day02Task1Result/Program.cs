@@ -1,5 +1,5 @@
 ﻿using Day02Task1Solution;
-using System;
+using Shared.Helpers;
 
 namespace Day02Task1Result
 {
@@ -7,7 +7,7 @@ namespace Day02Task1Result
     {
         static void Main(string[] args)
         {
-            Console.WriteLine($"The result is: {Solution.Calculate(Solution.Fix(Data.Program, 12, 2)).GetResult()}");
+            ConsoleHelper.PrintResult(Solution.Calculate(Solution.Fix(Data.Program, 12, 2)).GetResult());
         }
     }
 }

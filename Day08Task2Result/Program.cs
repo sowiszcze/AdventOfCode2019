@@ -1,5 +1,6 @@
 ﻿using Day08Task1Solution;
-using System;
+using Shared.Constants;
+using Shared.Helpers;
 
 namespace Day08Task2Result
 {
@@ -7,10 +8,7 @@ namespace Day08Task2Result
     {
         static void Main(string[] args)
         {
-            foreach (var line in Solution.RenderImage(Solution.FlattenImage(Solution.CreateImage(Data.Image, 25, 6))))
-            {
-                Console.WriteLine(line);
-            }
+            ConsoleHelper.PrintResult(ConsoleHelper.Render(Solution.FlattenImage(Solution.CreateImage(Data.Image, 25, 6)), CharacterMaps.BitInverted));
         }
     }
 }

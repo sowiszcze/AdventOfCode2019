@@ -1,5 +1,5 @@
 ﻿using Day10Task1Solution;
-using System;
+using Shared.Helpers;
 using System.Linq;
 
 namespace Day10Task2Result
@@ -12,7 +12,7 @@ namespace Day10Task2Result
             var observatories = Solution.GetObservatories(asteroids).ToArray();
             var observatory = Solution.FindObservatoryWithBestVisibility(observatories);
             var yote = Solution.AsteroidsToYeet(observatory.Asteroid, asteroids);
-            Console.WriteLine($"The result is: {yote[199].X * 100 + yote[199].Y}");
+            ConsoleHelper.PrintResult(yote[199].X * 100 + yote[199].Y);
         }
     }
 }

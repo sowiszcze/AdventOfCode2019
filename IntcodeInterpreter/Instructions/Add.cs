@@ -1,12 +1,12 @@
-﻿using Day05Task1Solution.Enums;
+﻿using IntcodeInterpreter.Enums;
 using System.Collections.Generic;
 
-namespace Day05Task1Solution.Models
+namespace IntcodeInterpreter.Instructions
 {
-    public class MultiplyData : InstructionData
+    public class Add : InstructionBase
     {
-        internal MultiplyData(long parameters)
-            : base(Instruction.Multiply, 4)
+        internal Add(long parameters)
+            : base(Instruction.Add, 4)
         {
             NounMode = (Mode)(parameters % 10);
             VerbMode = (Mode)((parameters / 10) % 10);
@@ -24,7 +24,7 @@ namespace Day05Task1Solution.Models
                 ResultMode,
                 instructionIndex + 3,
                 relativeBase,
-                GetValue(program, NounMode, instructionIndex + 1, relativeBase) * GetValue(program, VerbMode, instructionIndex + 2, relativeBase)
+                GetValue(program, NounMode, instructionIndex + 1, relativeBase) + GetValue(program, VerbMode, instructionIndex + 2, relativeBase)
             );
             return null;
         }

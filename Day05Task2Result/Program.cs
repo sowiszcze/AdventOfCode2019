@@ -1,6 +1,6 @@
 ﻿using Day05Task1Solution;
+using Shared.Helpers;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace Day05Task2Result
@@ -9,12 +9,12 @@ namespace Day05Task2Result
     {
         static void Main(string[] args)
         {
-            IList<long> result = Solution.Run(Data.Program, 5);
+            var result = Solution.Run(Data.Program, 5);
             if (result.Count > 1)
             {
                 throw new Exception("Too many outputs.");
             }
-            Console.WriteLine($"The result is: {result.Last()}");
+            ConsoleHelper.PrintResult(result.Last());
         }
     }
 }

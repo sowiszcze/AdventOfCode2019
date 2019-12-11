@@ -1,5 +1,5 @@
 ﻿using Day06Task1Solution;
-using System;
+using Shared.Helpers;
 
 namespace Day06Task1Result
 {
@@ -7,7 +7,7 @@ namespace Day06Task1Result
     {
         static void Main(string[] args)
         {
-            Console.WriteLine($"The result is: {Solution.SumAllRelations(Data.Orbits)}");
+            ConsoleHelper.PrintResult(Solution.SumAllRelations(Data.Orbits));
         }
     }
 }

@@ -7,6 +7,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Day10Task1Solution\Day10Task1Solution.csproj" />
+    <ProjectReference Include="..\Shared\Shared.csproj" />
   </ItemGroup>
 
 </Project>

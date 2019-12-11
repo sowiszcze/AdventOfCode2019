@@ -1,11 +1,11 @@
-﻿using Day05Task1Solution.Enums;
+﻿using IntcodeInterpreter.Enums;
 using System.Collections.Generic;
 
-namespace Day05Task1Solution.Models
+namespace IntcodeInterpreter.Instructions
 {
-    internal class JumpIfTrueData : InstructionData
+    internal class JumpIfTrue : InstructionBase
     {
-        public JumpIfTrueData(long parameters)
+        public JumpIfTrue(long parameters)
             : base(Instruction.JumpIfTrue, 3)
         {
             NounMode = (Mode)(parameters % 10);

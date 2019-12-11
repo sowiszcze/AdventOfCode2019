@@ -1,11 +1,11 @@
-﻿using Day05Task1Solution.Enums;
+﻿using IntcodeInterpreter.Enums;
 using System.Collections.Generic;
 
-namespace Day05Task1Solution.Models
+namespace IntcodeInterpreter.Instructions
 {
-    public class ExitData : InstructionData
+    public class Exit : InstructionBase
     {
-        internal ExitData()
+        internal Exit()
             : base(Instruction.Exit, 0)
         {
         }

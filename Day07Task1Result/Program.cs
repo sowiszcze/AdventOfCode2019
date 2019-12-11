@@ -1,5 +1,5 @@
 ﻿using Day07Task1Solution;
-using System;
+using Shared.Helpers;
 
 namespace Day07Task1Result
 {
@@ -7,7 +7,7 @@ namespace Day07Task1Result
     {
         static void Main(string[] args)
         {
-            Console.WriteLine($"The result is: {Solution.FindBestSettings(Data.Program, 0, 0, 4)}");
+            ConsoleHelper.PrintResult(Solution.FindBestSettings(Data.Program, 0, 0, 4));
         }
     }
 }

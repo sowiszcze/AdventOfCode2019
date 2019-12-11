@@ -1,44 +1,43 @@
-﻿using Day05Task1Solution.Enums;
+﻿using IntcodeInterpreter.Enums;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
-namespace Day05Task1Solution.Models
+namespace IntcodeInterpreter.Instructions
 {
-    public abstract class InstructionData
+    public abstract class InstructionBase
     {
-        public static InstructionData CreateInstructionData(long data)
+        public static InstructionBase CreateInstruction(long data)
         {
             var instructionInfo = (Instruction)(data % 100);
             long instructionParams = data / 100;
             switch (instructionInfo)
             {
                 case Instruction.Add:
-                    return new AddData(instructionParams);
+                    return new Add(instructionParams);
                 case Instruction.Multiply:
-                    return new MultiplyData(instructionParams);
+                    return new Multiply(instructionParams);
                 case Instruction.Input:
-                    return new InputData(instructionParams);
+                    return new Input(instructionParams);
                 case Instruction.Output:
-                    return new OutputData(instructionParams);
+                    return new Output(instructionParams);
                 case Instruction.JumpIfTrue:
-                    return new JumpIfTrueData(instructionParams);
+                    return new JumpIfTrue(instructionParams);
                 case Instruction.JumpIfFalse:
-                    return new JumpIfFalseData(instructionParams);
+                    return new JumpIfFalse(instructionParams);
                 case Instruction.LessThan:
-                    return new LessThanData(instructionParams);
+                    return new LessThan(instructionParams);
                 case Instruction.Equals:
-                    return new EqualsData(instructionParams);
+                    return new Equals(instructionParams);
                 case Instruction.AdjustRelativeBase:
-                    return new AdjustRelativeBaseData(instructionParams);
+                    return new AdjustRelativeBase(instructionParams);
                 case Instruction.Exit:
-                    return new ExitData();
+                    return new Exit();
                 default:
                     throw new NotImplementedException($"Instruction {instructionInfo} is not implemented. Reference data: {data}.");
             }
         }
         
-        protected InstructionData(Instruction instruction, long length)
+        protected InstructionBase(Instruction instruction, long length)
         {
             Instruction = instruction;
             Length = length;

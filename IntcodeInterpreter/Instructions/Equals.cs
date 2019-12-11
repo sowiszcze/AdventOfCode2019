@@ -1,12 +1,12 @@
-﻿using Day05Task1Solution.Enums;
+﻿using IntcodeInterpreter.Enums;
 using System.Collections.Generic;
 
-namespace Day05Task1Solution.Models
+namespace IntcodeInterpreter.Instructions
 {
-    internal class LessThanData : InstructionData
+    internal class Equals : InstructionBase
     {
-        public LessThanData(long parameters)
-            : base(Instruction.LessThan, 4)
+        public Equals(long parameters)
+            : base(Instruction.Equals, 4)
         {
             NounMode = (Mode)(parameters % 10);
             VerbMode = (Mode)((parameters / 10) % 10);
@@ -21,7 +21,7 @@ namespace Day05Task1Solution.Models
         {
             long valueFirst = GetValue(program, NounMode, instructionIndex + 1, relativeBase);
             long valueSecond = GetValue(program, VerbMode, instructionIndex + 2, relativeBase);
-            SetValue(program, ResultMode, instructionIndex + 3, relativeBase, valueFirst < valueSecond ? 1 : 0);
+            SetValue(program, ResultMode, instructionIndex + 3, relativeBase, valueFirst == valueSecond ? 1 : 0);
 
             return null;
         }

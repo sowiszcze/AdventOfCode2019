@@ -1,5 +1,5 @@
 ﻿using Day08Task1Solution;
-using System;
+using Shared.Helpers;
 
 namespace Day08Task1Result
 {
@@ -7,7 +7,7 @@ namespace Day08Task1Result
     {
         static void Main(string[] args)
         {
-            Console.WriteLine($"The result is: {Solution.GetResult(Data.Image, 25, 6, 0, 1, 2)}");
+            ConsoleHelper.PrintResult(Solution.GetResult(Data.Image, 25, 6, 0, 1, 2));
         }
     }
 }

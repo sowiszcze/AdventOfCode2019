@@ -1,12 +1,12 @@
-﻿using Day05Task1Solution.Enums;
+﻿using IntcodeInterpreter.Enums;
 using System.Collections.Generic;
 
-namespace Day05Task1Solution.Models
+namespace IntcodeInterpreter.Instructions
 {
-    public class OutputData : InstructionData
+    public class Input : InstructionBase
     {
-        internal OutputData(long parameters)
-            : base(Instruction.Output, 2)
+        internal Input(long parameters)
+            : base(Instruction.Input, 2)
         {
             ResultMode = (Mode)(parameters % 10);
         }
@@ -15,12 +15,14 @@ namespace Day05Task1Solution.Models
 
         public override long? Execute(Dictionary<long, long> program, long instructionIndex, long relativeBase, long? input)
         {
-            return GetValue(
+            SetValue(
                 program,
                 ResultMode,
                 instructionIndex + 1,
-                relativeBase
+                relativeBase,
+                input.Value
             );
+            return null;
         }
     }
 }

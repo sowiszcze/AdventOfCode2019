@@ -1,6 +1,6 @@
-﻿using Day05Task1Solution;
+﻿using IntcodeInterpreter;
+using Shared.Helpers;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace Day05Task1Result
@@ -9,12 +9,13 @@ namespace Day05Task1Result
     {
         static void Main(string[] args)
         {
-            IList<long> result = Solution.Run(Data.Program, 1);
+            var interpreter = new Interpreter(Data.Program);
+            var result = interpreter.RunToCompletion(1);
             if (result.Take(result.Count - 1).Any(r => r != 0))
             {
                 throw new Exception("Not all tests passed.");
             }
-            Console.WriteLine($"The result is: {result.Last()}");
+            ConsoleHelper.PrintResult(result.Last());
         }
     }
 }

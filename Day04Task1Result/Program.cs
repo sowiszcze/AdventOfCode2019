@@ -1,5 +1,5 @@
-﻿using System;
-using Day04Task1Solution;
+﻿using Day04Task1Solution;
+using Shared.Helpers;
 
 namespace Day04Task1Result
 {
@@ -7,7 +7,7 @@ namespace Day04Task1Result
     {
         static void Main(string[] args)
         {
-            Console.WriteLine($"The result is: {Solution.CountValidCodes(Data.Lower, Data.Upper)}");
+            ConsoleHelper.PrintResult(Solution.CountValidCodes(Data.Lower, Data.Upper));
         }
     }
 }

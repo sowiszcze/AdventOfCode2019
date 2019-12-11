@@ -2,26 +2,26 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Day05Task1Solution.Models
+namespace IntcodeInterpreter.Models
 {
-    public class Input
+    public class InputData
     {
         private int _index;
         private readonly long[] _list;
 
-        public Input()
+        public InputData()
         {
             _list = new long[] { };
             _index = 0;
         }
 
-        public Input(long input)
+        public InputData(long input)
         {
             _list = new long[] { input };
             _index = 0;
         }
 
-        public Input(long[] list)
+        public InputData(long[] list)
         {
             _list = list;
             _index = 0;

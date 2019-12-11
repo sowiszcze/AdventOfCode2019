@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Day05Task1Solution.Enums
+﻿namespace IntcodeInterpreter.Enums
 {
     public enum Instruction
     {

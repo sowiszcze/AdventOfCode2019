@@ -1,9 +1,7 @@
-﻿using Day05Task1Solution.Enums;
-using System;
+﻿using IntcodeInterpreter.Enums;
 using System.Collections.Generic;
-using System.Text;
 
-namespace Day05Task1Solution.Models
+namespace IntcodeInterpreter.Models
 {
     public class Result
     {

@@ -6,7 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Day05Task1Solution\Day05Task1Solution.csproj" />
+    <ProjectReference Include="..\IntcodeInterpreter\IntcodeInterpreter.csproj" />
+    <ProjectReference Include="..\Shared\Shared.csproj" />
   </ItemGroup>
 
 </Project>
