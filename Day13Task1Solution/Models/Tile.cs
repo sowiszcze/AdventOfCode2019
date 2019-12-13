@@ -15,5 +15,10 @@ namespace Day13Task1Solution.Models
         }
 
         public TileId Id { get; private set; }
+
+        public void SetId(TileId id)
+        {
+            Id = id;
+        }
     }
 }

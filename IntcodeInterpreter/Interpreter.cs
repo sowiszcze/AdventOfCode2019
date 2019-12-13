@@ -41,6 +41,11 @@ namespace IntcodeInterpreter
             input.Restart();
         }
 
+        public void ClearOutput()
+        {
+            output.Clear();
+        }
+
         public void Run()
         {
             Status = Status.Running;
