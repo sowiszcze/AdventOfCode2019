@@ -39,5 +39,14 @@ namespace Shared.Helpers
                 Console.WriteLine(line);
             }
         }
+
+        public static void PrintResult(string[] result)
+        {
+            Console.WriteLine($"The result is:");
+            foreach (var line in result)
+            {
+                Console.WriteLine(line);
+            }
+        }
     }
 }
