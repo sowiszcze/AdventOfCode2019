@@ -13,7 +13,7 @@ namespace Day16Task2Tests
         public void CheckForCorrectResult(int[] pattern, string encoded, int phases, int length, string expectedResult)
         {
             var fft = new FFT(pattern);
-            Assert.AreEqual(expectedResult, fft.DecodeWithOffset(encoded, phases, length));
+            Assert.AreEqual(expectedResult, fft.FastDecodeWithOffset(encoded, phases, length));
         }
     }
 }

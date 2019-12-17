@@ -13,15 +13,31 @@ namespace Day16Task1Solution
             this.pattern = pattern;
         }
 
-        public string DecodeWithOffset(string encoded, int phases, int length)
+        public string FastDecodeWithOffset(string encoded, int phases, int length)
         {
             var offset = int.Parse(encoded.Substring(0, 7));
-            return string.Join("", Decode(string.Join("", Enumerable.Repeat(encoded, 10000)), phases).Skip(offset).Take(length));
+            var input = string.Join("", Enumerable.Repeat(encoded, 10000));
+            if (offset < input.Length / 2)
+            {
+                throw new NotImplementedException($"Fast decode is prepared for offset after half of input. Input length: {input.Length}. Offset: {offset}");
+            }
+
+            var data = ParseData(input.Substring(offset));
+
+            for (var i = 0; i < phases; i++)
+            {
+                for (var d = data.Length - 2; d >= 0; d--)
+                {
+                    data[d] = (data[d] + data[d + 1]) % 10;
+                }
+            }
+
+            return string.Join("", data.Take(length));
         }
 
         public int[] Decode(string encoded, int phases)
         {
-            return Decode(encoded.ToCharArray().Select(e => (int)(e - '0')).ToArray(), phases);
+            return Decode(ParseData(encoded), phases);
         }
 
         public int[] Decode(int[] encoded, int phases)
@@ -52,6 +68,11 @@ namespace Day16Task1Solution
                 current = calculated;
             }
             return current;
+        }
+
+        private int[] ParseData(string data)
+        {
+            return data.ToCharArray().Select(e => e - '0').ToArray();
         }
     }
 }
