@@ -58,6 +58,16 @@ namespace Day18Task1Solution.Models
             }
         }
 
+        public void RemoveNeighbour(Tile neighbour)
+        {
+            if (neighbour == null)
+            {
+                return;
+            }
+
+            neighbours.Remove(neighbour);
+        }
+
         public void AddPath(Path path)
         {
             paths.Add(path);

@@ -12,11 +12,13 @@ namespace Day18Task1Solution
         private readonly List<Tile> tiles;
         private readonly IReadOnlyCollection<char> keys;
         private readonly long totalKeys;
+        private long currentMinimum = long.MaxValue;
 
         public Vault(string[] rows)
         {
             tiles = new List<Tile>();
             ParseDataRows(rows);
+            RemoveDeadEnds();
             keys = tiles.Where(t => t.Content == Content.Key).Select(t => t.Source).Distinct().ToList().AsReadOnly();
             totalKeys = keys.Count();
             PrecalculatePaths();
@@ -36,8 +38,10 @@ namespace Day18Task1Solution
 
         private void ParseDataRows(string[] rows)
         {
+            var temp = new Tile[rows.Length][];
             for (var y = 0; y < rows.Length; y++)
             {
+                temp[y] = new Tile[rows[y].Length];
                 for (var x = 0; x < rows[y].Length; x++)
                 {
                     char point = rows[y][x];
@@ -64,11 +68,12 @@ namespace Day18Task1Solution
                         throw new NotImplementedException($"Tile type {point} not implemented at X={x};Y={y}");
                     }
 
-                    var tile = new Tile(x, y, content, point);
-                    tile.AddNeighbours(tiles.Where(t => t.X == x - 1 && t.Y == y || t.X == x && t.Y == y - 1), true);
-                    tiles.Add(tile);
+                    temp[y][x] = new Tile(x, y, content, point);
+                    temp[y][x].AddNeighbour(temp[y - 1][x], true);
+                    temp[y][x].AddNeighbour(temp[y][x - 1], true);
                 }
             }
+            tiles.AddRange(temp.SelectMany(t => t).Where(t => t != null));
         }
 
         private void PrecalculatePaths()
@@ -168,21 +173,36 @@ namespace Day18Task1Solution
 
         private long FindMinimumStepsForAllKeys(Tile from)
         {
-            return FindMinimumStepsForAllKeys(from, new char[] { }, 0);
+            return FindMinimumStepsForAllKeys(from, new char[] { }, 0).Value;
         }
 
-        private long FindMinimumStepsForAllKeys(Tile from, IEnumerable<char> foundKeys, long distance)
+        private long? FindMinimumStepsForAllKeys(Tile from, IEnumerable<char> foundKeys, long distance)
         {
             Debug.WriteLine($"Point: {from.Source} | Distance: {distance} | Keys: {new string(foundKeys.ToArray())}");
             if (foundKeys.Distinct().Count() == totalKeys)
             {
+                currentMinimum = Math.Min(currentMinimum, distance);
                 return distance;
             }
 
             var toConsider = from.Paths.Where(p => p.IsAvailable(foundKeys) && !foundKeys.Contains(p.Key)).ToArray();
-            toConsider = toConsider.Where(p => !toConsider.Any(o => o.KeysExclusive.Contains(p.Key))).ToArray();
+            toConsider = toConsider.Where(p => !toConsider.Any(o => o.KeysExclusive.Contains(p.Key))).Where(p => p.Distance + distance < currentMinimum).OrderBy(p => p.Keys.Count()).ToArray();
 
-            return toConsider.Select(p => FindMinimumStepsForAllKeys(p.Destination, p.Keys.Union(foundKeys), distance + p.Distance)).Min();
+            return toConsider.Length > 0 ? toConsider.Select(p => FindMinimumStepsForAllKeys(p.Destination, p.Keys.Union(foundKeys), distance + p.Distance)).Min() : null;
+        }
+
+        private void RemoveDeadEnds()
+        {
+            IEnumerable<Tile> toRemove;
+            do
+            {
+                toRemove = tiles.Where(t => t.Content == Content.None && t.Neighbours.Count == 1).ToArray();
+                foreach (var tile in toRemove)
+                {
+                    tiles.Remove(tile);
+                    tile.Neighbours.ToList().ForEach(t => t.RemoveNeighbour(tile));
+                }
+            } while (toRemove.Count() > 0);
         }
     }
 }
