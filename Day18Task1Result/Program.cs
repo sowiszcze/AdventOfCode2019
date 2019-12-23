@@ -8,7 +8,7 @@ namespace Day18Task1Result
     {
         static void Main(string[] args)
         {
-            var vault = new Vault(Data.Tunnels);
+            var vault = new VaultLighter(Data.Tunnels);
             ConsoleHelper.PrintResult(vault.FindMinimumStepsForAllKeys());
         }
     }
